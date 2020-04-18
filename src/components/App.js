@@ -1,20 +1,26 @@
 import React from 'react';
+import { Row, Col, Container } from 'react-bootstrap';
+import Balance from './Balance';
+import Transaction from './Transaction';
+import History from './History';
 import './App.css';
-
-const hello = 'Hellow';
-function raw() {
-  const data = 'data';
-  const is = 'is';
-
-  if (hello === 'hellow') {
-    return console.log('hello');
-  }
-}
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello world</h1>
+      <Container>
+        <Row>
+          <Col md={3}>
+            <Balance />
+          </Col>
+          <Col md={3}>
+            <Transaction />
+          </Col>
+          <Col md={3}>
+            <History />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
