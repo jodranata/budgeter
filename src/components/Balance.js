@@ -1,15 +1,7 @@
 import React from 'react';
+import { BUDGETTYPE } from './constants';
 
-const budgetType = [
-  {
-    type: 'income',
-    op: '+',
-  },
-  {
-    type: 'expense',
-    op: '-',
-  },
-].map(({ type, op }) => (
+const budgets = BUDGETTYPE.map(({ type, op }) => (
   <div className={`${type}Sum`}>
     <span className={`budgetText ${type}Text`}>{`Your ${type}`}</span>
     <span className={`budgetNominal ${type}Nominal`}>
@@ -26,7 +18,7 @@ const Balance = () => {
         <span className="balanceText">Your Balance</span>
         <span className="balanceNumber" />
       </div>
-      <div className="budgetDetail">{budgetType}</div>
+      <div className="budgetDetail">{budgets}</div>
     </div>
   );
 };
