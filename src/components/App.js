@@ -26,10 +26,11 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
   appContainer: {
     backgroundColor: 'rgb(233,233,233)',
-    height: '100%',
-    '@media(min-width: 600px)': {
+    minHeight: '100%',
+    padding: '0 18px',
+    '@media(min-width: 960px)': {
       width: '80%',
-      height: '80%',
+      minHeight: '80%',
       margin: 'auto',
     },
   },
