@@ -1,18 +1,18 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
+
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import TransactionField from './MuiComponents/TransactionField';
 
 import { BUDGETTYPE } from './constants';
 
-const isNumber = (num) => {};
 const useStyles = makeStyles({
   fieldContainer: {
     marginTop: '24px',
     '& .button-transaction': {
-      '@media(max-width: 600px)': {
+      '@media(max-width: 960px)': {
         justifyContent: 'center',
       },
     },
@@ -38,7 +38,7 @@ const Transaction = () => {
         <form noValidate autoComplete="off">
           <Grid container item className={classes.fieldContainer}>
             <Grid item xs={12}>
-              <TextField
+              <TransactionField
                 color={colorType}
                 type="number"
                 label={`Add ${labelType}`}
@@ -52,7 +52,7 @@ const Transaction = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <TransactionField
                 color={colorType}
                 type="text"
                 label={`${labelType} detail`}

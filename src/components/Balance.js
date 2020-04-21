@@ -7,6 +7,7 @@ import { BUDGETTYPE } from './constants';
 const useStyles = makeStyles({
   MuiBalance: {
     textAlign: 'center',
+    color: 'rgb(241,241,241)',
     width: '100%',
     '& > *': {
       padding: '10px 0',
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
       fontSize: '1.8rem',
     },
     '& .budget': {
-      fontSize: '1.2rem',
+      fontSize: '1.4rem',
     },
     '& .MuiGrid-item:nth-child(3)': {
       '@media(min-width: 600px)': {
@@ -62,7 +63,7 @@ const Balance = () => {
           color={colorType}
           className={`budget budgetNominal ${type}Nominal`}
         >
-          <Typography variant="h5" id={type}>{`${op}0.00`}</Typography>
+          {`${op}0.00`}
         </Typography>
       </Grid>
     );

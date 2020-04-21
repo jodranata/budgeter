@@ -16,18 +16,21 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: 'rgb(226, 105, 88)',
+      contrastText: 'rgb(236, 236, 236)',
     },
     secondary: {
       main: 'rgb(66, 171, 219)',
+      contrastText: 'rgb(236, 236, 236)',
     },
   },
 });
 
 const useStyles = makeStyles({
   appContainer: {
-    backgroundColor: 'rgb(233,233,233)',
+    backgroundColor: 'rgb(53, 53, 53)',
     minHeight: '100%',
     padding: '0 18px',
+    boxShadow: '0 0 18px 12px rgba(121,121,121,0.67)',
     '@media(min-width: 960px)': {
       width: '80%',
       minHeight: '80%',
