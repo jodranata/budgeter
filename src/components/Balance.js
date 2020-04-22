@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     },
     '& .budget': {
       fontSize: '1.4rem',
+      textTransform: 'capitalize',
     },
     '& .MuiGrid-item:nth-child(3)': {
       '@media(min-width: 600px)': {
@@ -57,13 +58,13 @@ const Balance = () => {
           className={`budget budgetText ${type}Text`}
           color={colorType}
         >
-          {`Your ${type}`}
+          {`Your Total ${type}`}
         </Typography>
         <Typography
           color={colorType}
           className={`budget budgetNominal ${type}Nominal`}
         >
-          {`${op}0.00`}
+          {`${op} $0.00`}
         </Typography>
       </Grid>
     );

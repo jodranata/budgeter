@@ -1,43 +1,86 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import DoneIcon from '@material-ui/icons/Done';
-import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
 
-const historyTransType = [
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import HistoryBar from './HistoryBar';
+
+const incomeHistory = [
   {
-    type: 'income',
-    value: 60000,
-    op: '+',
+    type: '+',
+    nominal: '60000',
+    detail: `march's pay`,
   },
   {
-    type: 'expense',
-    value: 21000,
-    op: '-',
+    type: '+',
+    nominal: '15000',
+    detail: `Blog's ad`,
   },
 ];
 
-const onDeleteHis = () => {};
+const expenseHistory = [
+  {
+    type: '-',
+    nominal: '11000',
+    detail: `groceries`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+];
 
-const historyChip = historyTransType.map(({ type, op, value }) => {
-  const colorType = op === '+' ? 'secondary' : 'primary';
-  return (
-    <Grid item xs={12} sm={6} key={op}>
-      <Typography color={colorType} variant="body1">
-        {`${type} History`}
-      </Typography>
-      <Chip
-        color={colorType}
-        deleteIcon={<DoneIcon />}
-        onDelete={onDeleteHis}
-        label={`${type} ${value}`}
-      />
-    </Grid>
-  );
+const useStyles = makeStyles({
+  historyDetail: {
+    color: 'rgb(231,231,231)',
+    height: '100%',
+    '& > *': {
+      padding: '7px',
+    },
+    '&  .MuiTypography-root': {
+      fontSize: '1.2rem',
+      marginBottom: '14px',
+    },
+  },
 });
 
+const onDeleteHis = () => {};
+
+const HistoryChip = ({ historyData }) =>
+  historyData.map(({ type, nominal, detail }) => {
+    const colorType = type === '+' ? 'secondary' : 'primary';
+    return (
+      <>
+        <HistoryBar
+          deleteIcon="deleteIcon"
+          onDeleteHis="onDeleteHis"
+          nominal={nominal}
+          detail={detail}
+          bgColor={colorType}
+        />
+      </>
+    );
+  });
+
 const History = () => {
-  return <Grid container>{historyChip}</Grid>;
+  const classes = useStyles();
+  return (
+    <Grid container className={classes.historyDetail}>
+      <Grid item xs={12} sm={6}>
+        <Typography align="center" color="inherit">
+          Income History
+        </Typography>
+        <HistoryChip historyData={incomeHistory} />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Typography align="center" color="inherit">
+          Outcome History
+        </Typography>
+        <HistoryChip historyData={expenseHistory} />
+      </Grid>
+    </Grid>
+  );
 };
 
 export default History;
