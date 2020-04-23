@@ -8,13 +8,8 @@ import HistoryBar from './HistoryBar';
 const incomeHistory = [
   {
     type: '+',
-    nominal: '60000',
-    detail: `march's pay`,
-  },
-  {
-    type: '+',
-    nominal: '15000',
-    detail: `Blog's ad`,
+    nominal: '11000',
+    detail: `groceries`,
   },
 ];
 
@@ -29,18 +24,73 @@ const expenseHistory = [
     nominal: '30000',
     detail: `car loan`,
   },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
+  {
+    type: '-',
+    nominal: '30000',
+    detail: `car loan`,
+  },
 ];
 
 const useStyles = makeStyles({
   historyDetail: {
     color: 'rgb(231,231,231)',
-    height: '100%',
     '& > *': {
       padding: '7px',
     },
     '&  .MuiTypography-root': {
       fontSize: '1.2rem',
       marginBottom: '14px',
+    },
+    '& .historyContainer': {
+      overflowY: 'auto',
+      maxHeight: '350px',
+      '&::-webkit-scrollbar': {
+        width: '5px',
+        height: '5px',
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderRadius: '10px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#11171a',
+        borderRadius: '10px',
+      },
     },
   },
 });
@@ -69,15 +119,19 @@ const History = () => {
     <Grid container className={classes.historyDetail}>
       <Grid item xs={12} sm={6}>
         <Typography align="center" color="inherit">
-          Income History
+          Incomes History
         </Typography>
-        <HistoryChip historyData={incomeHistory} />
+        <div className="historyContainer">
+          {incomeHistory && <HistoryChip historyData={incomeHistory} />}
+        </div>
       </Grid>
       <Grid item xs={12} sm={6}>
         <Typography align="center" color="inherit">
-          Outcome History
+          Expenses History
         </Typography>
-        <HistoryChip historyData={expenseHistory} />
+        <div className="historyContainer">
+          {expenseHistory && <HistoryChip historyData={expenseHistory} />}
+        </div>
       </Grid>
     </Grid>
   );

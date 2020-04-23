@@ -28,13 +28,20 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
   appContainer: {
     backgroundColor: 'rgb(53, 53, 53)',
-    minHeight: '100%',
+    minHeight: '100vh',
+    width: '100vw',
     padding: '0 18px',
-    boxShadow: '0 0 18px 12px rgba(121,121,121,0.67)',
     '@media(min-width: 960px)': {
-      width: '80%',
-      minHeight: '80%',
-      margin: 'auto',
+      width: '80vw',
+      minHeight: '80vh',
+      margin: '0 auto',
+      boxShadow: '0 0 18px 12px rgba(121,121,121,0.67)',
+      '& .transactionSection': {
+        minHeight: '38%',
+      },
+      '& .historySection': {
+        minHeight: '62%',
+      },
     },
   },
 });
@@ -49,10 +56,10 @@ function App() {
             <Balance />
           </Grid>
           <Grid container item xs={12} md={8}>
-            <Grid item xs={12}>
+            <Grid item xs={12} className="transactionSection">
               <Transaction />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className="historySection">
               <History />
             </Grid>
           </Grid>

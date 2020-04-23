@@ -18,6 +18,11 @@ const useStyles = makeStyles({
     '& .appTitle': {
       textAlign: 'center',
       fontSize: '2.3rem',
+      marginBottom: '0',
+      textTransform: 'uppercase',
+      '& + *': {
+        color: 'rgb(195,195,195)',
+      },
     },
     '& .balance': {
       fontSize: '1.8rem',
@@ -73,7 +78,10 @@ const Balance = () => {
   return (
     <Grid container className={classes.MuiBalance}>
       <Grid item xs={12}>
-        <h1 className="appTitle">Budget App</h1>
+        <h1 className="appTitle">Budgetter</h1>
+        <Typography variant="subtitle2">
+          Your personal budget tracker
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <div className={classes['MuiFlex-colcenter']}>

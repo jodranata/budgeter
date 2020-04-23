@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
     '& > *': {
       padding: '2px',
-      margin: '5.5px 0',
+      margin: '5px 0',
       '& .MuiFab-root': {
         width: '35px',
         height: '35px',
@@ -48,11 +48,11 @@ const HistoryBar = (props) => {
       justify="space-around"
     >
       <Grid container item xs={9} className={`${bgType}`} alignItems="center">
-        <Grid item container xs={12} md={8}>
+        <Grid item container xs={8}>
           <span className="historySpan historyDetail">{detail}</span>
         </Grid>
-        <Grid item container xs={12} md={4}>
-          <span className="historySpan historyNominal">{`$ ${nominal}`}</span>
+        <Grid item container xs={4}>
+          <span className="historySpan historyNominal">{`$${nominal}`}</span>
         </Grid>
       </Grid>
       <Grid item xs={2}>

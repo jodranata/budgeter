@@ -10,10 +10,10 @@ body {
     rgb(188, 218, 243) 11.2%,
     rgb(219, 226, 230) 100.2%
   );
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-  color: rgb(66, 171, 219);
 }
