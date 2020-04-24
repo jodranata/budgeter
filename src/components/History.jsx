@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -98,10 +98,10 @@ const useStyles = makeStyles({
 const onDeleteHis = () => {};
 
 const HistoryChip = ({ historyData }) =>
-  historyData.map(({ type, nominal, detail }) => {
+  historyData.map(({ type, nominal, detail }, idx) => {
     const colorType = type === '+' ? 'secondary' : 'primary';
     return (
-      <>
+      <Fragment key={idx}>
         <HistoryBar
           deleteIcon="deleteIcon"
           onDeleteHis="onDeleteHis"
@@ -109,7 +109,7 @@ const HistoryChip = ({ historyData }) =>
           detail={detail}
           bgColor={colorType}
         />
-      </>
+      </Fragment>
     );
   });
 

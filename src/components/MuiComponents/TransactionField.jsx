@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 
 const TransactionField = withStyles({
   root: {
+    // eslint-disable-next-line max-len
     '& label, .MuiInputBase-input, .MuiInputAdornment-root.MuiInputAdornment-positionStart > p': {
       color: 'rgb(231,231,231)',
     },

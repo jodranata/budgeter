@@ -47,7 +47,7 @@ const HistoryBar = (props) => {
       className={historyClasses.historyBarContainer}
       justify="space-around"
     >
-      <Grid container item xs={9} className={`${bgType}`} alignItems="center">
+      <Grid container item xs={9} className={bgType} alignItems="center">
         <Grid item container xs={8}>
           <span className="historySpan historyDetail">{detail}</span>
         </Grid>

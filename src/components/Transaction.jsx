@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
 
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import TransactionField from './MuiComponents/TransactionField';
@@ -28,14 +28,59 @@ const useStyles = makeStyles({
   },
 });
 
-const Transaction = () => {
+const Transaction = (props) => {
   const classes = useStyles();
+  const [expenses, setExpenses] = useState({});
+  const [incomes, setIncomes] = useState({});
+  const [nominal, setNominal] = useState(0);
+  const [details, setDetails] = useState('');
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e) => {
+    const {
+      target: { id },
+    } = e;
+    const data = {
+      nominal,
+      details,
+    };
+    if (!nominal || !details) return setError(true);
+    if (e.target.id === 'IncomeForm') {
+      return setIncomes(data);
+    }
+    return setExpenses(data);
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const {
+      target: { type, value },
+    } = e;
+    if (type === 'number') {
+      setNominal(value);
+    } else {
+      setDetails(value);
+    }
+  };
+
+  const handleChangeDetail = (e) => {
+    e.preventDefault();
+    const {
+      target: { type, value },
+    } = e;
+  };
+
   const transactionType = BUDGETTYPE.map(({ type, op }) => {
     const colorType = type === 'income' ? 'secondary' : 'primary';
     const labelType = type === 'income' ? 'Income' : 'Expense';
     return (
-      <Grid item sm={6}>
-        <form noValidate autoComplete="off">
+      <Grid item sm={6} key={op}>
+        <form
+          noValidate
+          autoComplete="off"
+          id={`${labelType}Form`}
+          onSubmit={handleSubmit}
+        >
           <Grid container item className={classes.fieldContainer}>
             <Grid item xs={12}>
               <TransactionField
@@ -44,6 +89,7 @@ const Transaction = () => {
                 label={`Add ${labelType}`}
                 className={classes.numField}
                 fullWidth
+                onChange={handleChange}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
