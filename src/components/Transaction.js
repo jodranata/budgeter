@@ -8,6 +8,10 @@ import TransactionField from './MuiComponents/TransactionField';
 
 import { BUDGETTYPE } from './constants';
 
+const generateID = (min, max) => {
+  return Math.floor(Math.random() * max) + min;
+};
+
 const useStyles = makeStyles({
   fieldContainer: {
     marginTop: '24px',
@@ -28,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Transaction = (props) => {
+const Transaction = () => {
   const classes = useStyles();
   const [expenses, setExpenses] = useState({});
   const [incomes, setIncomes] = useState({});
@@ -37,15 +41,18 @@ const Transaction = (props) => {
   const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const {
       target: { id },
     } = e;
+
     const data = {
       nominal,
       details,
+      transactionId: generateID(1000000000, 8999999999),
     };
     if (!nominal || !details) return setError(true);
-    if (e.target.id === 'IncomeForm') {
+    if (id === 'IncomeForm') {
       return setIncomes(data);
     }
     return setExpenses(data);
@@ -56,18 +63,9 @@ const Transaction = (props) => {
     const {
       target: { type, value },
     } = e;
-    if (type === 'number') {
-      setNominal(value);
-    } else {
-      setDetails(value);
-    }
-  };
 
-  const handleChangeDetail = (e) => {
-    e.preventDefault();
-    const {
-      target: { type, value },
-    } = e;
+    if (type === 'number') setNominal(value);
+    else setDetails(value);
   };
 
   const transactionType = BUDGETTYPE.map(({ type, op }) => {
@@ -91,9 +89,7 @@ const Transaction = (props) => {
                 fullWidth
                 onChange={handleChange}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
               />
             </Grid>
@@ -104,6 +100,7 @@ const Transaction = (props) => {
                 label={`${labelType} detail`}
                 fullWidth
                 className={classes.numField}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item container xs={12} className="button-transaction">

@@ -52,23 +52,11 @@ const Balance = () => {
   const budgets = BUDGETTYPE.map(({ type, op }) => {
     const colorType = type === 'income' ? 'secondary' : 'primary';
     return (
-      <Grid
-        key={op}
-        item
-        xs={12}
-        sm={6}
-        className={classes['MuiFlex-colcenter']}
-      >
-        <Typography
-          className={`budget budgetText ${type}Text`}
-          color={colorType}
-        >
+      <Grid key={op} item xs={12} sm={6} className={classes['MuiFlex-colcenter']}>
+        <Typography className={`budget budgetText ${type}Text`} color={colorType}>
           {`Your Total ${type}`}
         </Typography>
-        <Typography
-          color={colorType}
-          className={`budget budgetNominal ${type}Nominal`}
-        >
+        <Typography color={colorType} className={`budget budgetNominal ${type}Nominal`}>
           {`${op} $0.00`}
         </Typography>
       </Grid>
@@ -79,9 +67,7 @@ const Balance = () => {
     <Grid container className={classes.MuiBalance}>
       <Grid item xs={12}>
         <h1 className="appTitle">Budgetter</h1>
-        <Typography variant="subtitle2">
-          Your personal budget tracker
-        </Typography>
+        <Typography variant="subtitle2">Your personal budget tracker</Typography>
       </Grid>
       <Grid item xs={12}>
         <div className={classes['MuiFlex-colcenter']}>

@@ -37,9 +37,7 @@ const HistoryBar = (props) => {
   const historyClasses = useStyles();
   const { onDeleteHis, nominal, detail, bgColor } = props;
   const bgType =
-    bgColor === 'primary'
-      ? themeClasses.primaryBgColor
-      : themeClasses.secondaryBgColor;
+    bgColor === 'primary' ? themeClasses.primaryBgColor : themeClasses.secondaryBgColor;
   return (
     <Grid
       container
