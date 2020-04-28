@@ -7,11 +7,11 @@ import {
 
 const handleAddExpense = (state, action) => ({
   ...state,
-  expense: action.payload,
+  expenses: [...state.expenses, action.payload],
 });
 const handleAddIncome = (state, action) => ({
   ...state,
-  income: action.payload,
+  incomes: [...state.incomes, action.payload],
 });
 
 const handleRemoveTransaction = (state, action) => {};
@@ -19,9 +19,9 @@ const handleRemoveTransaction = (state, action) => {};
 const appReducer = (state, action) => {
   switch (action.type) {
     case ADD_INCOME:
-      return handleAddExpense(state, action);
-    case ADD_EXPENSE:
       return handleAddIncome(state, action);
+    case ADD_EXPENSE:
+      return handleAddExpense(state, action);
     case REMOVE_EXPENSE:
     case REMOVE_INCOME:
       return handleRemoveTransaction(state, action);

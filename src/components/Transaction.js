@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -7,6 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import TransactionField from './MuiComponents/TransactionField';
 
 import { BUDGETTYPE } from './constants';
+import { GlobalContext } from '../Context/state';
 
 const generateID = (min, max) => {
   return Math.floor(Math.random() * max) + min;
@@ -20,7 +21,12 @@ const useStyles = makeStyles({
         justifyContent: 'center',
       },
     },
-
+    '& .MuiFormHelperText-root': {
+      opacity: '0',
+      '&.Mui-error': {
+        opacity: 1,
+      },
+    },
     '& > *': {
       margin: '5px auto',
     },
@@ -34,38 +40,102 @@ const useStyles = makeStyles({
 
 const Transaction = () => {
   const classes = useStyles();
-  const [expenses, setExpenses] = useState({});
-  const [incomes, setIncomes] = useState({});
-  const [nominal, setNominal] = useState(0);
-  const [details, setDetails] = useState('');
-  const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const {
+    addExpenseActions,
+    addIncomeActions,
+    removeExpenseAction,
+    removeIncomeAction,
+  } = useContext(GlobalContext);
+
+  const [incomeNominal, setIncomeNominal] = useState('');
+  const [expenseNominal, setExpenseNominal] = useState('');
+  const [incomeDetail, setIncomeDetail] = useState('');
+  const [expenseDetail, setExpenseDetail] = useState('');
+
+  const [expenseError, setExpenseError] = useState({
+    nominal: false,
+    detail: false,
+  });
+
+  const [incomeError, setIncomeError] = useState({
+    nominal: false,
+    detail: false,
+  });
+
+  const handleError = (id, data) => {
+    const isIncomeForm = id === 'IncomeForm';
+
+    if (isIncomeForm) {
+      return setIncomeError({
+        nominal: !data.nominal,
+        detail: !data.details,
+      });
+    }
+    return setExpenseError({
+      nominal: !data.nominal,
+      detail: !data.details,
+    });
+  };
+
+  const clearErrors = form => {
+    if (form === 'IncomeForm')
+      return setIncomeError({
+        nominal: false,
+        detail: false,
+      });
+    return setExpenseError({
+      nominal: false,
+      detail: false,
+    });
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
     const {
       target: { id },
     } = e;
 
+    const isIncomeForm = id === 'IncomeForm';
+    const currency = new Intl.NumberFormat('en', {
+      style: 'currency',
+      currency: 'USD',
+    });
+
     const data = {
-      nominal,
-      details,
+      nominal: isIncomeForm ? incomeNominal : expenseNominal,
+      details: isIncomeForm ? incomeDetail : expenseDetail,
+      type: isIncomeForm ? '+' : '-',
       transactionId: generateID(1000000000, 8999999999),
     };
-    if (!nominal || !details) return setError(true);
-    if (id === 'IncomeForm') {
-      return setIncomes(data);
+    console.log(data);
+    if (!data.nominal || !data.details || !data.details.trim())
+      return handleError(id, data);
+
+    if (isIncomeForm) {
+      addIncomeActions(data);
+      setIncomeDetail('');
+      setIncomeNominal('');
+      clearErrors('IncomeForm');
+    } else {
+      addExpenseActions(data);
+      setExpenseDetail('');
+      setExpenseNominal('');
+      clearErrors('ExpenseForm');
     }
-    return setExpenses(data);
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     e.preventDefault();
     const {
-      target: { type, value },
+      target: { type, value, id },
     } = e;
 
-    if (type === 'number') setNominal(value);
-    else setDetails(value);
+    if (type === 'number') {
+      if (id === 'IncomeNominal') setIncomeNominal(value);
+      else setExpenseNominal(value);
+    } else if (id === 'IncomeDetail') setIncomeDetail(value);
+    else setExpenseDetail(value);
   };
 
   const transactionType = BUDGETTYPE.map(({ type, op }) => {
@@ -83,10 +153,21 @@ const Transaction = () => {
             <Grid item xs={12}>
               <TransactionField
                 color={colorType}
+                id={`${labelType}Nominal`}
                 type="number"
                 label={`Add ${labelType}`}
                 className={classes.numField}
+                value={type === 'income' ? incomeNominal : expenseNominal}
                 fullWidth
+                error={
+                  labelType === 'Income' ? incomeError.nominal : expenseError.nominal
+                }
+                helperText={
+                  incomeError.nominal || expenseError.nominal
+                    ? `Please fill in the field`
+                    : ''
+                }
+                placeholder="0"
                 onChange={handleChange}
                 InputProps={{
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -96,8 +177,16 @@ const Transaction = () => {
             <Grid item xs={12}>
               <TransactionField
                 color={colorType}
+                id={`${labelType}Detail`}
                 type="text"
-                label={`${labelType} detail`}
+                label={`${labelType} Detail`}
+                value={type === 'income' ? incomeDetail : expenseDetail}
+                error={labelType === 'Income' ? incomeError.detail : expenseError.detail}
+                helperText={
+                  incomeError.detail || expenseError.detail
+                    ? 'Please fill in the field'
+                    : ''
+                }
                 fullWidth
                 className={classes.numField}
                 onChange={handleChange}

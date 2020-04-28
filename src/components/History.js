@@ -1,70 +1,9 @@
-import React, { Fragment } from 'react';
-
+import React, { Fragment, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { GlobalContext } from '../Context/state';
 import HistoryBar from './HistoryBar';
-
-const incomeHistory = [
-  {
-    type: '+',
-    nominal: '11000',
-    detail: `groceries`,
-  },
-];
-
-const expenseHistory = [
-  {
-    type: '-',
-    nominal: '11000',
-    detail: `groceries`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-  {
-    type: '-',
-    nominal: '30000',
-    detail: `car loan`,
-  },
-];
 
 const useStyles = makeStyles({
   historyDetail: {
@@ -98,15 +37,15 @@ const useStyles = makeStyles({
 const onDeleteHis = () => {};
 
 const HistoryChip = ({ historyData }) =>
-  historyData.map(({ type, nominal, detail }, idx) => {
+  historyData.map(({ type, nominal, details, transactionId }) => {
     const colorType = type === '+' ? 'secondary' : 'primary';
     return (
-      <Fragment key={idx}>
+      <Fragment key={transactionId}>
         <HistoryBar
           deleteIcon="deleteIcon"
           onDeleteHis="onDeleteHis"
           nominal={nominal}
-          detail={detail}
+          detail={details}
           bgColor={colorType}
         />
       </Fragment>
@@ -115,6 +54,8 @@ const HistoryChip = ({ historyData }) =>
 
 const History = () => {
   const classes = useStyles();
+  const { state } = useContext(GlobalContext);
+  const { incomes, expenses } = state;
   return (
     <Grid container className={classes.historyDetail}>
       <Grid item xs={12} sm={6}>
@@ -122,7 +63,7 @@ const History = () => {
           Incomes History
         </Typography>
         <div className="historyContainer">
-          {incomeHistory && <HistoryChip historyData={incomeHistory} />}
+          {incomes && <HistoryChip historyData={incomes} />}
         </div>
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -130,7 +71,7 @@ const History = () => {
           Expenses History
         </Typography>
         <div className="historyContainer">
-          {expenseHistory && <HistoryChip historyData={expenseHistory} />}
+          {expenses && <HistoryChip historyData={expenses} />}
         </div>
       </Grid>
     </Grid>

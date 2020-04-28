@@ -4,6 +4,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 
+import { GlobalProvider } from '../Context/state';
 import Balance from './Balance';
 import Transaction from './Transaction';
 import History from './History';
@@ -47,21 +48,23 @@ function App() {
   const classes = useStyles();
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <Grid container className={classes.appContainer}>
-          <Grid item xs={12} md={4}>
-            <Balance />
-          </Grid>
-          <Grid container item xs={12} md={8}>
-            <Grid item xs={12} className="transactionSection">
-              <Transaction />
+      <GlobalProvider>
+        <ThemeProvider theme={theme}>
+          <Grid container className={classes.appContainer}>
+            <Grid item xs={12} md={4}>
+              <Balance />
             </Grid>
-            <Grid item xs={12} className="historySection">
-              <History />
+            <Grid container item xs={12} md={8}>
+              <Grid item xs={12} className="transactionSection">
+                <Transaction />
+              </Grid>
+              <Grid item xs={12} className="historySection">
+                <History />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </ThemeProvider>
+        </ThemeProvider>
+      </GlobalProvider>
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { GlobalContext } from '../Context/state';
 import { BUDGETTYPE } from './constants';
 
 const useStyles = makeStyles({
@@ -49,6 +50,12 @@ const useStyles = makeStyles({
 
 const Balance = () => {
   const classes = useStyles();
+  const {
+    state: { incomes, expenses },
+  } = useContext(GlobalContext);
+  const totalIncomes = incomes.map(({ nominal }) => nominal).reduce((a, b) => a + b, 0);
+  const totalExpenses = expenses.map(({ nominal }) => nominal).reduce((a, b) => a + b, 0);
+
   const budgets = BUDGETTYPE.map(({ type, op }) => {
     const colorType = type === 'income' ? 'secondary' : 'primary';
     return (
@@ -57,7 +64,7 @@ const Balance = () => {
           {`Your Total ${type}`}
         </Typography>
         <Typography color={colorType} className={`budget budgetNominal ${type}Nominal`}>
-          {`${op} $0.00`}
+          {`${op} ${type === 'income' ? totalIncomes : totalExpenses}`}
         </Typography>
       </Grid>
     );

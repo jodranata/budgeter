@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const HistoryBar = (props) => {
+const HistoryBar = props => {
   const themeClasses = themeBgColor();
   const historyClasses = useStyles();
   const { onDeleteHis, nominal, detail, bgColor } = props;
@@ -50,7 +50,7 @@ const HistoryBar = (props) => {
           <span className="historySpan historyDetail">{detail}</span>
         </Grid>
         <Grid item container xs={4}>
-          <span className="historySpan historyNominal">{`$${nominal}`}</span>
+          <span className="historySpan historyNominal">{`${nominal}`}</span>
         </Grid>
       </Grid>
       <Grid item xs={2}>
