@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     color: 'rgb(241,241,241)',
     width: '100%',
+    maxHeight: '100%',
     '& > *': {
       padding: '10px 0',
       '@media(min-width: 600px)': {
@@ -27,10 +28,12 @@ const useStyles = makeStyles({
     },
     '& .balance': {
       fontSize: '1.8rem',
+      wordWrap: 'break-word',
     },
     '& .budget': {
       fontSize: '1.4rem',
       textTransform: 'capitalize',
+      wordWrap: 'break-word',
     },
     '& .MuiGrid-item:nth-child(3)': {
       '@media(min-width: 600px)': {
@@ -53,18 +56,33 @@ const Balance = () => {
   const {
     state: { incomes, expenses },
   } = useContext(GlobalContext);
+  const currency = new Intl.NumberFormat('en', {
+    style: 'currency',
+    currency: 'USD',
+  });
   const totalIncomes = incomes.map(({ nominal }) => nominal).reduce((a, b) => a + b, 0);
   const totalExpenses = expenses.map(({ nominal }) => nominal).reduce((a, b) => a + b, 0);
+  const totalBalance = currency.format(totalIncomes - totalExpenses);
+
+  const currIncome = `+${currency.format(totalIncomes)}`;
+  const currExpenses = `-${currency.format(totalExpenses)}`;
 
   const budgets = BUDGETTYPE.map(({ type, op }) => {
     const colorType = type === 'income' ? 'secondary' : 'primary';
     return (
-      <Grid key={op} item xs={12} sm={6} className={classes['MuiFlex-colcenter']}>
+      <Grid
+        key={op}
+        item
+        xs={12}
+        sm={6}
+        className={classes['MuiFlex-colcenter']}
+        wrap="nowrap"
+      >
         <Typography className={`budget budgetText ${type}Text`} color={colorType}>
           {`Your Total ${type}`}
         </Typography>
         <Typography color={colorType} className={`budget budgetNominal ${type}Nominal`}>
-          {`${op} ${type === 'income' ? totalIncomes : totalExpenses}`}
+          {`${type === 'income' ? currIncome : currExpenses}`}
         </Typography>
       </Grid>
     );
@@ -79,7 +97,7 @@ const Balance = () => {
       <Grid item xs={12}>
         <div className={classes['MuiFlex-colcenter']}>
           <span className="balance balanceText">Your Balance</span>
-          <span className="balance balanceNumber">0.00</span>
+          <span className="balance balanceNumber">{totalBalance}</span>
         </div>
       </Grid>
       <Grid container item xs={12}>

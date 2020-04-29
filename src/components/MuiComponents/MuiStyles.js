@@ -1,6 +1,6 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-export const themeBgColor = makeStyles((theme) => ({
+export const themeBgColor = makeStyles(theme => ({
   primaryBgColor: {
     backgroundColor: theme.palette.primary.main,
   },

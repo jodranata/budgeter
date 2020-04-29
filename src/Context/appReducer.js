@@ -3,6 +3,7 @@ import {
   ADD_EXPENSE,
   REMOVE_EXPENSE,
   REMOVE_INCOME,
+  REMOVE_TRANSACTION,
 } from '../components/constants';
 
 const handleAddExpense = (state, action) => ({
@@ -14,7 +15,18 @@ const handleAddIncome = (state, action) => ({
   incomes: [...state.incomes, action.payload],
 });
 
-const handleRemoveTransaction = (state, action) => {};
+const handleRemoveTransaction = (state, action) => {
+  const { budgetType, payload } = action;
+  if (budgetType === '+')
+    return {
+      ...state,
+      incomes: state.incomes.filter(({ transactionId }) => transactionId !== payload),
+    };
+  return {
+    ...state,
+    expenses: state.expenses.filter(({ transactionId }) => transactionId !== payload),
+  };
+};
 
 const appReducer = (state, action) => {
   switch (action.type) {
@@ -22,8 +34,7 @@ const appReducer = (state, action) => {
       return handleAddIncome(state, action);
     case ADD_EXPENSE:
       return handleAddExpense(state, action);
-    case REMOVE_EXPENSE:
-    case REMOVE_INCOME:
+    case REMOVE_TRANSACTION:
       return handleRemoveTransaction(state, action);
     default:
   }

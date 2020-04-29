@@ -42,6 +42,7 @@ const Transaction = () => {
   const classes = useStyles();
 
   const {
+    state,
     addExpenseActions,
     addIncomeActions,
     removeExpenseAction,
@@ -65,16 +66,16 @@ const Transaction = () => {
 
   const handleError = (id, data) => {
     const isIncomeForm = id === 'IncomeForm';
-
+    const { nominal, details } = data;
     if (isIncomeForm) {
       return setIncomeError({
-        nominal: !data.nominal,
-        detail: !data.details,
+        nominal: !nominal,
+        detail: !details.trim(),
       });
     }
     return setExpenseError({
-      nominal: !data.nominal,
-      detail: !data.details,
+      nominal: !nominal,
+      detail: !details.trim(),
     });
   };
 
@@ -97,18 +98,14 @@ const Transaction = () => {
     } = e;
 
     const isIncomeForm = id === 'IncomeForm';
-    const currency = new Intl.NumberFormat('en', {
-      style: 'currency',
-      currency: 'USD',
-    });
 
     const data = {
-      nominal: isIncomeForm ? incomeNominal : expenseNominal,
+      nominal: isIncomeForm ? Number(incomeNominal) : Number(expenseNominal),
       details: isIncomeForm ? incomeDetail : expenseDetail,
       type: isIncomeForm ? '+' : '-',
       transactionId: generateID(1000000000, 8999999999),
     };
-    console.log(data);
+
     if (!data.nominal || !data.details || !data.details.trim())
       return handleError(id, data);
 
@@ -160,7 +157,7 @@ const Transaction = () => {
                 value={type === 'income' ? incomeNominal : expenseNominal}
                 fullWidth
                 error={
-                  labelType === 'Income' ? incomeError.nominal : expenseError.nominal
+                  labelType === 'Income' ? !!incomeError.nominal : !!expenseError.nominal
                 }
                 helperText={
                   incomeError.nominal || expenseError.nominal
@@ -181,7 +178,9 @@ const Transaction = () => {
                 type="text"
                 label={`${labelType} Detail`}
                 value={type === 'income' ? incomeDetail : expenseDetail}
-                error={labelType === 'Income' ? incomeError.detail : expenseError.detail}
+                error={
+                  labelType === 'Income' ? !!incomeError.detail : !!expenseError.detail
+                }
                 helperText={
                   incomeError.detail || expenseError.detail
                     ? 'Please fill in the field'

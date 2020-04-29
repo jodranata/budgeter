@@ -34,19 +34,23 @@ const useStyles = makeStyles({
   },
 });
 
-const onDeleteHis = () => {};
-
-const HistoryChip = ({ historyData }) =>
+const HistoryChip = ({ historyData, removeTransactionAction }) =>
   historyData.map(({ type, nominal, details, transactionId }) => {
     const colorType = type === '+' ? 'secondary' : 'primary';
+
+    const onDeleteTransaction = (budgetType, id) => {
+      return removeTransactionAction(type, transactionId);
+    };
+
     return (
       <Fragment key={transactionId}>
         <HistoryBar
           deleteIcon="deleteIcon"
-          onDeleteHis="onDeleteHis"
+          onDeleteTransaction={() => onDeleteTransaction(type, transactionId)}
           nominal={nominal}
           detail={details}
           bgColor={colorType}
+          transactionId={transactionId}
         />
       </Fragment>
     );
@@ -54,8 +58,9 @@ const HistoryChip = ({ historyData }) =>
 
 const History = () => {
   const classes = useStyles();
-  const { state } = useContext(GlobalContext);
+  const { state, removeTransactionAction } = useContext(GlobalContext);
   const { incomes, expenses } = state;
+
   return (
     <Grid container className={classes.historyDetail}>
       <Grid item xs={12} sm={6}>
@@ -63,7 +68,12 @@ const History = () => {
           Incomes History
         </Typography>
         <div className="historyContainer">
-          {incomes && <HistoryChip historyData={incomes} />}
+          {incomes && (
+            <HistoryChip
+              historyData={incomes}
+              removeTransactionAction={removeTransactionAction}
+            />
+          )}
         </div>
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -71,7 +81,12 @@ const History = () => {
           Expenses History
         </Typography>
         <div className="historyContainer">
-          {expenses && <HistoryChip historyData={expenses} />}
+          {expenses && (
+            <HistoryChip
+              historyData={expenses}
+              removeTransactionAction={removeTransactionAction}
+            />
+          )}
         </div>
       </Grid>
     </Grid>

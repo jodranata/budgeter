@@ -4,6 +4,7 @@ import {
   ADD_EXPENSE,
   REMOVE_INCOME,
   REMOVE_EXPENSE,
+  REMOVE_TRANSACTION,
 } from '../components/constants';
 import appReducer from './appReducer';
 
@@ -24,11 +25,9 @@ export const GlobalProvider = ({ children }) => {
   const addIncomeActions = data => {
     return dispatch({ type: ADD_INCOME, payload: data });
   };
-  const removeIncomeAction = data => {
-    return dispatch({ type: REMOVE_INCOME, payload: data });
-  };
-  const removeExpenseAction = data => {
-    return dispatch({ type: REMOVE_EXPENSE, payload: data });
+
+  const removeTransactionAction = (budgetType, id) => {
+    return dispatch({ type: REMOVE_TRANSACTION, budgetType, payload: id });
   };
 
   return (
@@ -37,8 +36,8 @@ export const GlobalProvider = ({ children }) => {
         state,
         addExpenseActions,
         addIncomeActions,
-        removeExpenseAction,
-        removeIncomeAction,
+
+        removeTransactionAction,
       }}
     >
       {children}

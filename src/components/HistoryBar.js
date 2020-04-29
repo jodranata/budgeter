@@ -16,6 +16,7 @@ const useStyles = makeStyles({
       width: '100%',
       fontWeight: '700',
       textTransform: 'capitalize',
+      wordWrap: 'break-word',
     },
     '& .historyNominal': {
       textAlign: 'right',
@@ -35,7 +36,13 @@ const useStyles = makeStyles({
 const HistoryBar = props => {
   const themeClasses = themeBgColor();
   const historyClasses = useStyles();
-  const { onDeleteHis, nominal, detail, bgColor } = props;
+  const { onDeleteTransaction, nominal, detail, bgColor } = props;
+
+  const currency = new Intl.NumberFormat('en', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  const displayNominal = currency.format(nominal);
   const bgType =
     bgColor === 'primary' ? themeClasses.primaryBgColor : themeClasses.secondaryBgColor;
   return (
@@ -50,11 +57,11 @@ const HistoryBar = props => {
           <span className="historySpan historyDetail">{detail}</span>
         </Grid>
         <Grid item container xs={4}>
-          <span className="historySpan historyNominal">{`${nominal}`}</span>
+          <span className="historySpan historyNominal">{`${displayNominal}`}</span>
         </Grid>
       </Grid>
       <Grid item xs={2}>
-        <Fab color="primary" aria-label="delete">
+        <Fab color="primary" aria-label="delete" onClick={onDeleteTransaction}>
           <DeleteIcon />
         </Fab>
       </Grid>
