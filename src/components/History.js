@@ -39,7 +39,7 @@ const HistoryChip = ({ historyData, removeTransactionAction }) =>
     const colorType = type === '+' ? 'secondary' : 'primary';
 
     const onDeleteTransaction = (budgetType, id) => {
-      return removeTransactionAction(type, transactionId);
+      return removeTransactionAction(budgetType, id);
     };
 
     return (

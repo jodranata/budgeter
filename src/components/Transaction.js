@@ -41,13 +41,7 @@ const useStyles = makeStyles({
 const Transaction = () => {
   const classes = useStyles();
 
-  const {
-    state,
-    addExpenseActions,
-    addIncomeActions,
-    removeExpenseAction,
-    removeIncomeAction,
-  } = useContext(GlobalContext);
+  const { addExpenseActions, addIncomeActions } = useContext(GlobalContext);
 
   const [incomeNominal, setIncomeNominal] = useState('');
   const [expenseNominal, setExpenseNominal] = useState('');

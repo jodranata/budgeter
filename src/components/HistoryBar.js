@@ -3,6 +3,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
 
 import { themeBgColor } from './MuiComponents/MuiStyles';
 
@@ -67,6 +68,18 @@ const HistoryBar = props => {
       </Grid>
     </Grid>
   );
+};
+
+HistoryBar.propTypes = {
+  onDeleteTransaction: PropTypes.func.isRequired,
+  bgColor: PropTypes.string.isRequired,
+  nominal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  detail: PropTypes.string,
+};
+
+HistoryBar.defaultProps = {
+  nominal: '',
+  detail: '',
 };
 
 export default HistoryBar;

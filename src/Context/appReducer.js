@@ -1,10 +1,4 @@
-import {
-  ADD_INCOME,
-  ADD_EXPENSE,
-  REMOVE_EXPENSE,
-  REMOVE_INCOME,
-  REMOVE_TRANSACTION,
-} from '../components/constants';
+import { ADD_INCOME, ADD_EXPENSE, REMOVE_TRANSACTION } from '../components/constants';
 
 const handleAddExpense = (state, action) => ({
   ...state,

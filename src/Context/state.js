@@ -1,11 +1,6 @@
 import React, { createContext, useReducer } from 'react';
-import {
-  ADD_INCOME,
-  ADD_EXPENSE,
-  REMOVE_INCOME,
-  REMOVE_EXPENSE,
-  REMOVE_TRANSACTION,
-} from '../components/constants';
+import PropTypes from 'prop-types';
+import { ADD_INCOME, ADD_EXPENSE, REMOVE_TRANSACTION } from '../components/constants';
 import appReducer from './appReducer';
 
 const INITIAL_STATE = {
@@ -43,4 +38,12 @@ export const GlobalProvider = ({ children }) => {
       {children}
     </Provider>
   );
+};
+
+GlobalProvider.propTypes = {
+  children: PropTypes.objectOf(PropTypes.object),
+};
+
+GlobalProvider.defaultProps = {
+  children: {},
 };
